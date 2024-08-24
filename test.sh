@@ -1,6 +1,7 @@
- clear
+clear
 project_folder="$HOME/Documents/42lisboa/Piscine"
 test_folder="$HOME/Documents/42lisboa/Piscine_test"
+echo $0
 echo "Start Testing"
 
 exercise=$1
