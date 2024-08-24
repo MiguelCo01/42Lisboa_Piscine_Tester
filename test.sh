@@ -1,49 +1,75 @@
 clear
-project_folder="$HOME/Documents/42lisboa/Piscine"
-test_folder="$HOME/Documents/42lisboa/Piscine_test"
-echo $0
+project_folder=$(pwd)
+test_folder=$(dirname $0)
 echo "Start Testing"
 
-exercise=$1
-echo
-echo "Test Folder: $test_folder/$exercise"
-echo "Project Folder: $project_folder/$exercise"
+project=$(basename "$project_folder")
+exercises=$1
+
+echo "Project: " $project
+
+ 
+if [ -z "$exercises" ]
+then
+	exercises=$(ls $project_folder)
+fi
+
+echo "Exercise: " $exercises
 echo
 
-test_files=$(find "$test_folder/$exercise" -type f -name "*.c")
-project_files=$(find "$project_folder/$exercise" -type f -name "*.c")
 
-echo "Found Test files: $test_files"
-echo "Found Exercise Files: $project_files"
-echo 
-echo "Compilling.."
-echo "cc -Wall -Wextra -Werror -o main $test_files $project_files"
-cc -Wall -Wextra -Werror -o main $test_files $project_files
-echo "Done Compiling."
-echo
-echo
-
-echo "Searching Test"
-# run main without args
-# after run main for each test found
-test_number=$(./main)
-echo "Found $test_number tests."
-echo "-------------------------"
-for ((c=0; c<test_number; c++))
+for exercise in $exercises
 do
-	echo "Running Test #$c"
-	
-	result="$(./main $c 2>&1 )"
-	exit_code=$?
-	if [ $exit_code -eq 139 ];
+	echo "-------------------------"
+	echo -n "Running Test #$exercise - "
+
+	if ! [[ -d $test_folder/$project/$exercise ]]
 	then
-		echo  "Segmentation Fault"
-	else 
-		echo  -e "$result"
+		echo "No Test Folder Found! Maybe you need to create tests for this exercise."
+		continue
 	fi
+
+	#Searching files
+	test_files=$(find "$test_folder/$project/$exercise" -type f -name "*.c")
+	project_files=$(find "$project_folder/$exercise" -type f -name "*.c")
+
+	if [ -z $test_files ]
+	then
+		echo "No Test Files Found"
+		continue
+	fi
+
+	if [ -z $project_files ]
+	then
+		echo "No Project Files Found"
+		continue
+	fi
+	
+	#Compiling
+	compiled=$(cc -Wall -Wextra -Werror -o main $test_files $project_files)
+	if [ $? -ne 0 ]
+	then
+		echo "Not Compiling"
+		echo "$compiled"
+		continue
+	fi
+	test_number=$(./main)
+	for ((c=0; c<test_number; c++))
+	do
+		
+		errors="$(./main $c 2>&1 > /dev/null)"
+		exit_code=$?
+		case $exit_code in
+			0)
+				echo -n "OK "
+			;;
+			130)
+				echo -n "[SEGFAULT] "
+			;;
+		esac
+
+	done
 	echo
+	
+	rm ./main
 done
-
-echo "---------------------------------------------------------------------"
-
-rm ./main
