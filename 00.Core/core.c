@@ -66,12 +66,36 @@ void assert_int(int actual, int expected, char *msg)
 	}
 }
 
+void assert_uint(unsigned int actual, unsigned int expected, char *msg)
+{
+	if (expected != actual)
+	{
+		fprintf(stderr, "Testing for: %s\n", msg);
+		fprintf(stderr, "Expected %u. Actual %u\n", expected, actual);
+		fflush(stderr);
+		exit (1);
+	}
+}
+
 void assert_str(char *actual, char * expected, char *msg)
 {
+	if (actual == NULL && expected == NULL)
+	{
+		exit(0);
+	}
+
+	if ((actual == NULL && expected != NULL) || (actual != NULL && expected == NULL))
+	{
+		fprintf(stderr, "Testing for: %s\n", msg);
+		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
+		fflush(stderr);
+		exit (1);
+
+	}
 	if (strcmp(expected,  actual))
 	{
 		fprintf(stderr, "Testing for: %s\n", msg);
-		fprintf(stderr, "E: %s.\n A: %s\n", expected, actual);
+		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
 		fflush(stderr);
 		exit (1);
 	}

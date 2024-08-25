@@ -51,7 +51,7 @@ do
 	fi
 	
 	#Compiling
-	compiled=$(cc -Wall -Wextra -Werror -o main $test_files $project_files)
+	compiled=$(cc -Wall -Wextra -Werror -o main $test_files $project_files -lbsd)
 	if [ $? -ne 0 ]
 	then
 		echo "Not Compiling"
@@ -63,7 +63,7 @@ do
 	for (( c=0; c<test_number; c++ ))
 	do
 	exit_code=-1
-	result=$(./main $c 2>&1 > /dev/null)
+	result="$(./main $c 2>&1 > /dev/null)"
 	exit_code=$?
 	case $exit_code in
 		0) echo -n -e "${green}[OK]${reset} " ;;
@@ -79,7 +79,7 @@ do
 	then
 		echo
 		echo "Errors:"
-		echo -n -e $errors
+		echo -n -e "$errors"
 	fi
 	echo
 	
