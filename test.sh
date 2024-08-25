@@ -1,3 +1,8 @@
+#set -x
+red="\e[31;1;4m"
+green="\e[32;1;4m"
+reset="\e[0m"
+
 clear
 project_folder=$(pwd)
 test_folder=$(dirname $0)
@@ -14,7 +19,7 @@ then
 	exercises=$(ls $project_folder)
 fi
 
-echo "Exercise: " $exercises
+echo "Exercises: " $exercises
 echo
 
 
@@ -53,22 +58,29 @@ do
 		echo "$compiled"
 		continue
 	fi
-	test_number=$(./main)
-	for ((c=0; c<test_number; c++))
+	test_number="$(./main)"
+	errors=''
+	for (( c=0; c<test_number; c++ ))
 	do
-		
-		errors="$(./main $c 2>&1 > /dev/null)"
-		exit_code=$?
-		case $exit_code in
-			0)
-				echo -n "OK "
+	exit_code=-1
+	result=$(./main $c 2>&1 > /dev/null)
+	exit_code=$?
+	case $exit_code in
+		0) echo -n -e "${green}[OK]${reset} " ;;
+		139) echo -n -e "${red}[SEGFAULT]${reset} " ;;
+		1) 
+			echo -n -e "${red}[NOK]${reset} "
+			errors="$errors Test #$c------------------- \n\n$result\n\n"
 			;;
-			130)
-				echo -n "[SEGFAULT] "
-			;;
-		esac
-
+		*) echo "Unknown  $xit_code" ;;
+	esac
 	done
+	if ! [[ -z $errors ]]
+	then
+		echo
+		echo "Errors:"
+		echo -n -e $errors
+	fi
 	echo
 	
 	rm ./main
