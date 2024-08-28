@@ -51,7 +51,7 @@ do
 	fi
 	
 	#Compiling
-	compiled=$(cc -Wall -Wextra -Werror -o main $test_files $project_files -lbsd)
+	compiled=$(cc -Wall -Wextra -Werror -o main $test_files $project_files -g -lbsd)
 	if [ $? -ne 0 ]
 	then
 		echo "Not Compiling"
@@ -83,5 +83,5 @@ do
 	fi
 	echo
 	
-	rm ./main
+	#rm ./main
 done
