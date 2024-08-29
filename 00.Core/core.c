@@ -1,6 +1,15 @@
+#ifndef _GNU_SOURCE
+	#define _GNU_SOURCE 1
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>                           
+#include <unistd.h>
 
 #define TEST(x) { \
 	if (mode == TesterMode_Counting)\
@@ -30,8 +39,9 @@ enum TesterMode {
 
 
 int test_count = 0;
+int test_number = 0;
 enum TesterMode mode = TesterMode_Unknown;
-
+int test_status = 0;
 
 void begin_test(int argc, char **argv)
 {
@@ -42,7 +52,8 @@ void begin_test(int argc, char **argv)
 	else {
 		mode = TesterMode_Testing; // Test Run Mode
 		test_count = atoi(argv[1]);
-		printf("Tsting %d\n", test_count);
+		test_number = test_count;
+		test_status = 0;
 	}
 }
 
@@ -51,6 +62,10 @@ void end_test()
 	if (mode == TesterMode_Counting)
 	{
 		printf("%d\n", test_count);
+	}
+	else 
+	{
+		exit(test_status);
 	}
 }
 
@@ -62,7 +77,7 @@ void assert_int(int actual, int expected, char *msg)
 		fprintf(stderr, "Testing for: %s\n", msg);
 		fprintf(stderr, "Expected %d. Actual %d\n", expected, actual);
 		fflush(stderr);
-		exit (1);
+		test_status = 1;
 	}
 }
 
@@ -73,23 +88,19 @@ void assert_uint(unsigned int actual, unsigned int expected, char *msg)
 		fprintf(stderr, "Testing for: %s\n", msg);
 		fprintf(stderr, "Expected %u. Actual %u\n", expected, actual);
 		fflush(stderr);
-		exit (1);
+		test_status = 1;
 	}
 }
 
 void assert_str(char *actual, char * expected, char *msg)
 {
-	if (actual == NULL && expected == NULL)
-	{
-		exit(0);
-	}
 
 	if ((actual == NULL && expected != NULL) || (actual != NULL && expected == NULL))
 	{
 		fprintf(stderr, "Testing for: %s\n", msg);
 		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
 		fflush(stderr);
-		exit (1);
+		test_status = 1;
 
 	}
 	if (strcmp(expected,  actual))
@@ -97,6 +108,72 @@ void assert_str(char *actual, char * expected, char *msg)
 		fprintf(stderr, "Testing for: %s\n", msg);
 		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
 		fflush(stderr);
-		exit (1);
+		test_status = 1;
 	}
 }
+
+
+void clean_up(FILE *file, char *name)
+{
+	if (fclose(file))
+	{
+		fprintf(stderr, "Cannot close temp file\n");
+		fflush(stderr);
+		test_status = 2;
+	}
+	if (remove (name))
+	{
+		fprintf(stderr, "Cannot remove temp file\n");
+		fflush(stderr);
+		test_status = 2;
+	}
+}
+
+
+void assert_stdout(int fd, char * expected, char *msg, char *filename)
+{
+	FILE *file;
+	char actual[100];
+
+	file = fdopen(fd, "r");
+	rewind(file);
+	fscanf(file, "%99[^\n]", actual);
+	
+	if (strcmp(actual, expected) != 0)
+	{
+		fprintf(stderr, "Testing for: %s\n", msg);
+		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
+		fflush(stderr);
+		test_status = 1;
+	}
+
+	clean_up(file, filename);
+
+}
+void redirect_stdout(int *temp, int *std, char *filename)
+{
+	*temp = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	*std = dup(fileno(stdout));
+	dup2(*temp, fileno(stdout));
+}
+
+void reset_stdout(int * std)
+{
+	// dup 2 redirect from std to stdout
+	fflush(stdout);
+	dup2(*std, fileno(stdout));
+	close(*std);
+}
+
+#define ASSERT_STDOUT(x, y, z) \
+{\
+	int file_desc; \
+	int copy_out; \
+	char *filename; \
+	asprintf(&filename, "temp_%d", test_number); \
+	redirect_stdout(&file_desc, &copy_out, filename); \
+	x; \
+	reset_stdout(&copy_out); \
+	assert_stdout(file_desc, y, z, filename); \
+}
+

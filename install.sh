@@ -5,6 +5,6 @@ then
 	echo "Done."
 fi
 echo "Updating zshrc"
-echo "alias 42Tester='bash $(dirname $(pwd))/test.sh" > ~/./zshrc
+echo "alias 42Tester='bash $(dirname $(pwd))/test.sh'" > ~/.zshrc
 echo "done."
 echo "Good Luck"
