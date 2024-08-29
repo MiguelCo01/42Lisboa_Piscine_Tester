@@ -83,5 +83,5 @@ do
 	fi
 	echo
 	
-	#rm ./main
+	rm ./main
 done

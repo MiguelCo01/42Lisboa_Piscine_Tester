@@ -6,7 +6,7 @@
 /*   By: mimelo-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 02:36:47 by mimelo-d          #+#    #+#             */
-/*   Updated: 2024/08/23 00:39:53 by mimelo-d         ###   ########.fr       */
+/*   Updated: 2024/08/29 17:10:46 by mimelo-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	test_strncpy(char *dest, char *src, unsigned int size)
 	char *dest_dup;
 	char *src_dup;
 	int	result;
-
+	
 	dest_dup = strdup(dest);
 	src_dup = strdup(src);
 
@@ -39,17 +39,7 @@ void	test_strncpy(char *dest, char *src, unsigned int size)
 	expected = strncpy(dest_dup, src_dup, size);
 	actual = ft_strncpy(dest, src, size);
 	result = strncmp(expected, actual, size);
-
-	if (result == 0)
-	{
-		printf("OK\n");
-	}
-	else
-	{
-		printf("Testing %s and %s\n", dest, src);
-		printf("Result %d. Expected: %s. Actual: %s\n", strncmp(expected, actual, size), expected, actual);
-		printf("Src: %s, src_dup: %s\n", src, src_dup);
-	}
+	assert_str_n(expected, actual, size, "Comparing String");
 }
 
 

@@ -114,6 +114,29 @@ void assert_str(char *actual, char * expected, char *msg)
 	}
 }
 
+void assert_str_n(char *actual, char * expected, unsigned int size, char *msg)
+{
+	if (actual == NULL && expected == NULL)
+		return ;
+
+	if ((actual == NULL && expected != NULL) || (actual != NULL && expected == NULL))
+	{
+		fprintf(stderr, "Testing for: %s\n", msg);
+		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
+		fflush(stderr);
+		test_status = 1;
+
+	}
+	if (strncmp(expected,  actual, size))
+	{
+		fprintf(stderr, "Testing for: %s\n", msg);
+		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
+		fflush(stderr);
+		test_status = 1;
+	}
+}
+
+
 
 void clean_up(FILE *file, char *name)
 {
@@ -141,7 +164,7 @@ void assert_stdout(int fd, char * expected, char *msg, char *filename)
 	rewind(file);
 	fscanf(file, "%99[^\n]", actual);
 	
-	if (strcmp(actual, expected) != 0)
+	if (strcmp(actual, expected) != 0 && (*actual == '\0' && *expected =='\0'))
 	{
 		fprintf(stderr, "Testing for: %s\n", msg);
 		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
