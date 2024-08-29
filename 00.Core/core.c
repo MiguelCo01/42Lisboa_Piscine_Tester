@@ -94,6 +94,8 @@ void assert_uint(unsigned int actual, unsigned int expected, char *msg)
 
 void assert_str(char *actual, char * expected, char *msg)
 {
+	if (actual == NULL && expected == NULL)
+		return ;
 
 	if ((actual == NULL && expected != NULL) || (actual != NULL && expected == NULL))
 	{
