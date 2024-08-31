@@ -32,7 +32,7 @@ int main(TEST_ARGS)
 	TEST(assert_int(sign(ft_strncmp("", "", 0)), strncmp("", "", 0), "Comparing 'abd' and 'abc' for n 2"));
 	TEST(assert_int(sign(ft_strncmp("ab", "a", 2)), strncmp("ab", "a", 2), "Comparing 'ab' and 'a' for n 2"));
 	TEST(assert_int(sign(ft_strncmp("a", "ab", 2)), strncmp("a", "ab", 2), "Comparing 'a' and 'ab' for n 2"));
-	TEST(assert_int(sign(ft_strncmp("hello world", "hello world ", 11)), strncmp("hello world", "hello world ", 11), "Comparing 'a' and 'ab' for n 2"));
+	TEST(assert_int(sign(ft_strncmp("hello world", "hello world ", 11)), strncmp("hello world", "hello world ", 11), "Comparing 'hello world' and 'hello world ' for n 11"));
 	
 	TEST(assert_int(sign(ft_strncmp("a", "ab", 0)), strncmp("a", "ab", 0), "Comparing 'a' and 'ab' for n 0"));
 	END_TEST;
