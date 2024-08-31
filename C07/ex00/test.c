@@ -5,26 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mimelo-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/24 22:58:34 by mimelo-d          #+#    #+#             */
-/*   Updated: 2024/08/29 18:22:43 by mimelo-d         ###   ########.fr       */
+/*   Created: 2024/08/31 00:29:29 by mimelo-d          #+#    #+#             */
+/*   Updated: 2024/08/31 00:55:02 by mimelo-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../00.Core/core.c"
 
-int	ft_str_is_printable(char *str);
+char	*ft_strdup(char *src);
 
-int	main(int argc, char **argv)
+int	main(TEST_ARGS)
 {
-	begin_test(argc, argv);
+	BEGIN_TEST;
+	{
+		char *original = "Hello";
+		char *result;
 
-	TEST(assert_int(ft_str_is_printable("a"), 1, "is printable 'a'"));
-	TEST(assert_int(ft_str_is_printable("A"), 1, "is printable 'A'"));
-	TEST(assert_int(ft_str_is_printable("A2"), 1, "is printable 'A2'"));
-	TEST(assert_int(ft_str_is_printable(""), 1, "is printable ''"));
-	TEST(assert_int(ft_str_is_printable("\n"), 0, "is printable '\\n'"));
-	TEST(assert_int(ft_str_is_printable(" "), 1, "is printable '\\n'"));
-
-	end_test();
+		result = ft_strdup(original);
+		TEST(assert_str(result, original, "dup 'Hello'"));
+	//	TEST(assert_int(errno, 12, "Errno should be zero"));
+		free(result);
+	}
+	END_TEST;
 }
 

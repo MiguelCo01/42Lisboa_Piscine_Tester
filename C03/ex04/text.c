@@ -6,7 +6,7 @@
 /*   By: mimelo-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 02:58:51 by mimelo-d          #+#    #+#             */
-/*   Updated: 2024/08/25 15:17:27 by mimelo-d         ###   ########.fr       */
+/*   Updated: 2024/08/31 14:04:16 by mimelo-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,7 @@ int	main(TEST_ARGS)
 	TEST(assert_str(ft_strstr("A bola", " "), strstr("A bola", " "), "Search ' ' in 'A bola'"));
 	TEST(assert_str(ft_strstr("A bola", "Bola"), strstr("A bola", "Bola"), "Search 'Bola' in 'A bola'"));
 	TEST(assert_str(ft_strstr("A bola bola", "bola"), strstr("A bola bola", "bola"), "Search 'Bola' in 'A bola'"));
+	TEST(assert_str(ft_strstr("", "bola"), strstr("", "bola"), "Search 'Bola' in 'A bola'"));
+	TEST(assert_str(ft_strstr("", ""), strstr("", ""), "Search 'Bola' in 'A bola'"));
 	END_TEST;
 }

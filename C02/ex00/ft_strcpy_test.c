@@ -6,7 +6,7 @@
 /*   By: mimelo-d <mimelo-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 21:31:43 by mimelo-d          #+#    #+#             */
-/*   Updated: 2024/08/22 20:55:09 by mimelo-d         ###   ########.fr       */
+/*   Updated: 2024/08/29 17:57:44 by mimelo-d         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -31,19 +31,9 @@ void test_strcpy(char *dest, char *src)
 
 	expected = strcpy(dest_dup, src_dup);
 	actual = ft_strcpy(dest, src);
+	assert_str(expected, actual, "Strcpy");
 	result = strcmp(expected, actual);
-	if (result == 0)
-	{
-		printf("OK\n");
-	}
-	else
-	{
-		printf("Testing %s and %s\n", dest, src);
-		printf("Result %d. Expected: %s. Actual: %s\n", result, expected, actual);
-		printf("Src: %s, src_dup: %s\n", src, src_dup);
-	}
 }
-
 
 
 int	main(int argc, char **argv)

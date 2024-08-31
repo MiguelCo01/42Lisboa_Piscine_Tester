@@ -6,7 +6,7 @@
 /*   By: mimelo-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 01:57:49 by mimelo-d          #+#    #+#             */
-/*   Updated: 2024/08/25 02:24:43 by mimelo-d         ###   ########.fr       */
+/*   Updated: 2024/08/31 13:45:10 by mimelo-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,32 +21,49 @@ int	main(TEST_ARGS)
 	{
 		char s1[] = "Hello ";
 		char s2[] = "World";
-		TEST(assert_str(ft_strcat(s1, s2), strcat(s1, s2), "Concat 'Hello ' 'World'"));	
+		char *s1_sys = strdup(s1);
+		char *s2_sys = strdup(s2);
+		TEST(assert_str(ft_strcat(s1, s2), strcat(s1_sys, s2_sys), "Concat 'Hello ' 'World'"));	
 	}
 	{
 		char s1[] = "";
 		char s2[] = "World";
-		TEST(assert_str(ft_strcat(s1, s2), strcat(s1, s2), "Concat '' 'World'"));	
+		char *s1_sys = strdup(s1);
+		char *s2_sys = strdup(s2);
+
+		TEST(assert_str(ft_strcat(s1, s2), strcat(s1_sys, s2_sys), "Concat '' 'World'"));	
 	}
 	{
 		char s1[] = "Hello ";
-		char s2[] = "World";
-		TEST(assert_str(ft_strcat(s1, s2), strcat(s1, s2), "Concat 'Hello ' 'World'"));	
+		char s2[] = "World";;
+		char *s1_sys = strdup(s1);
+		char *s2_sys = strdup(s2);
+
+		TEST(assert_str(ft_strcat(s1, s2), strcat(s1_sys, s2_sys), "Concat 'Hello ' 'World'"));	
 	}
 	{
 		char s1[] = "";
 		char s2[] = "";
-		TEST(assert_str(ft_strcat(s1, s2), strcat(s1, s2), "Concat '' ''"));	
+		char *s1_sys = strdup(s1);
+		char *s2_sys = strdup(s2);
+
+		TEST(assert_str(ft_strcat(s1, s2), strcat(s1_sys, s2_sys), "Concat '' ''"));	
 	}
 	{
 		char s1[] = " Blue Blue ";
 		char s2[] = "Red";
-		TEST(assert_str(ft_strcat(s1, s2), strcat(s1, s2), "Concat ' Blue Blue ' 'Red'"));	
+		char *s1_sys = strdup(s1);
+		char *s2_sys = strdup(s2);
+
+		TEST(assert_str(ft_strcat(s1, s2), strcat(s1_sys, s2_sys), "Concat ' Blue Blue ' 'Red'"));	
 	}
 	{
 		char s1[] = "C";
 		char s2[] = "Red";
-		TEST(assert_str(ft_strcat(s1, s2), strcat(s1, s2), "Concat 'c' 'Red'"));	
+		char *s1_sys = strdup(s1);
+		char *s2_sys = strdup(s2);
+
+		TEST(assert_str(ft_strcat(s1, s2), strcat(s1_sys, s2_sys), "Concat 'c' 'Red'"));	
 	}
 
 	END_TEST;

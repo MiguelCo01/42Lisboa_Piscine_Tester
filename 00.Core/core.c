@@ -103,6 +103,7 @@ void assert_str(char *actual, char * expected, char *msg)
 		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
 		fflush(stderr);
 		test_status = 1;
+		return ;
 
 	}
 	if (strcmp(expected,  actual))
@@ -111,6 +112,7 @@ void assert_str(char *actual, char * expected, char *msg)
 		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
 		fflush(stderr);
 		test_status = 1;
+		return ;
 	}
 }
 
@@ -144,13 +146,11 @@ void clean_up(FILE *file, char *name)
 	{
 		fprintf(stderr, "Cannot close temp file\n");
 		fflush(stderr);
-		test_status = 2;
 	}
 	if (remove (name))
 	{
 		fprintf(stderr, "Cannot remove temp file\n");
 		fflush(stderr);
-		test_status = 2;
 	}
 }
 
@@ -159,12 +159,20 @@ void assert_stdout(int fd, char * expected, char *msg, char *filename)
 {
 	FILE *file;
 	char actual[100];
+	int i;
+
+	i = 0;
+	while (i < 100)
+	{
+		actual[i] = '\0';
+		i++;
+	}
+	
 
 	file = fdopen(fd, "r");
 	rewind(file);
-	fscanf(file, "%99[^\n]", actual);
-	
-	if (strcmp(actual, expected) != 0 && (*actual == '\0' && *expected =='\0'))
+	fread(actual, 1, 100, file);
+	if (strcmp(actual, expected) != 0 && (*actual != '\0' && *expected !='\0'))
 	{
 		fprintf(stderr, "Testing for: %s\n", msg);
 		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);

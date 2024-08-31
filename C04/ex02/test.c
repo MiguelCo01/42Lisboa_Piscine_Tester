@@ -6,7 +6,7 @@
 /*   By: mimelo-d <mimelo-d@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 00:19:19 by mimelo-d          #+#    #+#             */
-/*   Updated: 2024/08/27 14:18:45 by mimelo-d         ###   ########.fr       */
+/*   Updated: 2024/08/31 16:02:36 by mimelo-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int main(TEST_ARGS)
 	TEST(ASSERT_STDOUT(ft_putnbr(-1), "-1", "Parsing '-1'"));
 	TEST(ASSERT_STDOUT(ft_putnbr(INT_MAX), "2147483647", "Parsing '2147483647'"));
 	TEST(ASSERT_STDOUT(ft_putnbr(INT_MIN), "-2147483648", "Parsing '–2147483648'"));
+	TEST(ASSERT_STDOUT(ft_putnbr(-100), "-100", "Parsing '-100'"));
 	END_TEST;
 }
