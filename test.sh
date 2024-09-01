@@ -51,7 +51,7 @@ do
 	fi
 	
 	#Compiling
-	compiled=$(cc -Wall -Wextra -Werror -o main $test_files $project_files -g -lbsd)
+	compiled=$(cc -Wall -Wextra -Werror -o main $test_files $project_files -g -lbsd -Wl,--wrap=malloc)
 	if [ $? -ne 0 ]
 	then
 		echo "Not Compiling"

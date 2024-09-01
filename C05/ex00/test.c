@@ -6,7 +6,7 @@
 /*   By: mimelo-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:17:49 by mimelo-d          #+#    #+#             */
-/*   Updated: 2024/08/29 17:25:04 by mimelo-d         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:58:51 by mimelo-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	main(TEST_ARGS)
 	// Test: Positive
 	TEST(assert_int(ft_iterative_factorial(10), 3628800, "Factorial 10"));
 	// Test: 0
-	TEST(assert_int(ft_iterative_factorial(0), 0, "Factorial 0"));
+	TEST(assert_int(ft_iterative_factorial(0), 1, "Factorial 0"));
+	TEST(assert_int(ft_iterative_factorial(1), 1, "Factorial 1"));
 	// Test:Almost overflow for timeout
 	TEST(assert_int(ft_iterative_factorial(12), 479001600, "Factorial 12"));
 	END_TEST;

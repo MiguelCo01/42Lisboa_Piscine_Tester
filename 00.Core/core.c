@@ -31,6 +31,26 @@
 #define BEGIN_TEST begin_test(argc, argv)
 #define END_TEST end_test()
 
+
+// Malloc Mocking
+//
+
+int MALLOC_FAILS;
+
+void *__real_malloc(size_t bytes);
+
+void *__wrap_malloc(size_t bytes) 
+{
+  if (MALLOC_FAILS)
+    return NULL;  
+  return __real_malloc(bytes);
+}
+
+void mock_malloc(int on)
+{
+	MALLOC_FAILS = on;
+}
+
 enum TesterMode {
 	TesterMode_Unknown,
 	TesterMode_Counting,
@@ -106,7 +126,7 @@ void assert_str(char *actual, char * expected, char *msg)
 		return ;
 
 	}
-	if (strcmp(expected,  actual))
+	if (strcmp(expected,  actual) != 0)
 	{
 		fprintf(stderr, "Testing for: %s\n", msg);
 		fprintf(stderr, "E: '%s'\nA: '%s'\n", expected, actual);
@@ -138,7 +158,31 @@ void assert_str_n(char *actual, char * expected, unsigned int size, char *msg)
 	}
 }
 
+void assert_ptr_not(void *actual, void * expected, char *msg)
+{
+	if (expected == actual)
+	{
+		fprintf(stderr, "Testing for: %s\n", msg);
+		fprintf(stderr, "Pointer should not be equal\n");
+		fflush(stderr);
+		test_status = 1;
 
+	}
+	
+}
+
+void assert_ptr(void *actual, void * expected, char *msg)
+{
+	if (expected != actual)
+	{
+		fprintf(stderr, "Testing for: %s\n", msg);
+		fprintf(stderr, "E:%p A; %p\n", expected, actual);
+		fflush(stderr);
+		test_status = 1;
+
+	}
+	
+}
 
 void clean_up(FILE *file, char *name)
 {

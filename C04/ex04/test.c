@@ -6,7 +6,7 @@
 /*   By: mimelo-d <mimelo-d@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:53:15 by mimelo-d          #+#    #+#             */
-/*   Updated: 2024/08/31 16:15:35 by mimelo-d         ###   ########.fr       */
+/*   Updated: 2024/09/01 00:05:10 by mimelo-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,18 @@ int main(TEST_ARGS)
 	TEST(ASSERT_STDOUT(ft_putnbr_base(INT_MIN, "poneyvif"), "-npppppppppp", "Parsing '–2147483648' base 8"));
 	TEST(ASSERT_STDOUT(ft_putnbr_base(-512, "poneyvif"), "-oppp", "Parsing '–1000' base 8"));
 	TEST(ASSERT_STDOUT(ft_putnbr_base( 512, "poneyvif"),  "oppp", "Parsing  '1000' base 8"));
+
+	// Impar
+	TEST(ASSERT_STDOUT(ft_putnbr_base(1, "012"), "1", "Parsing '1' base 3"));
+	TEST(ASSERT_STDOUT(ft_putnbr_base(100, "012"), "10201", "Parsing '100' base 3"));
+	TEST(ASSERT_STDOUT(ft_putnbr_base(10, "012"), "101", "Parsing '10' base 3"));
+	TEST(ASSERT_STDOUT(ft_putnbr_base(0, "012"), "0", "Parsing '0' base 3"));
+	TEST(ASSERT_STDOUT(ft_putnbr_base(-1, "012"), "-1", "Parsing '-1' base 3"));
+	TEST(ASSERT_STDOUT(ft_putnbr_base(INT_MAX, "012"), "12112122212110202101", "Parsing '2147483647' base 3"));
+	TEST(ASSERT_STDOUT(ft_putnbr_base(INT_MIN, "012"), "-12112122212110202102", "Parsing '–2147483648' base 3"));
+	TEST(ASSERT_STDOUT(ft_putnbr_base(-18, "012"), "-200", "Parsing '–1000' base 3"));
+	TEST(ASSERT_STDOUT(ft_putnbr_base( 18, "012"),  "200", "Parsing  '1000' base 3"));
+
 
 	END_TEST;
 }
