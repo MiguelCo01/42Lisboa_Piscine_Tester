@@ -27,10 +27,34 @@
 	} \
 }
 
+
+
+
+#define TEST_START \
+	if (mode == TesterMode_Counting)\
+	{ \
+		test_count++; \
+	} \
+	else if (test_count == 0) \
+	{ \
+
+#define TEST_END \
+		test_count--; \
+	} \
+	else \
+	{ \
+		test_count--; \
+	} \
+
+
+
 #define TEST_ARGS int argc, char ** argv
+
 #define BEGIN_TEST begin_test(argc, argv)
 #define END_TEST end_test()
 
+#define SUITE_START begin_test(argc, argv)
+#define SUITE_END end_test()
 
 // Malloc Mocking
 //
@@ -179,7 +203,6 @@ void assert_ptr(void *actual, void * expected, char *msg)
 		fprintf(stderr, "E:%p A; %p\n", expected, actual);
 		fflush(stderr);
 		test_status = 1;
-
 	}
 	
 }
@@ -240,6 +263,29 @@ void reset_stdout(int * std)
 	fflush(stdout);
 	dup2(*std, fileno(stdout));
 	close(*std);
+}
+
+void includes(int *actual, int *expected, long long size)
+{
+	long long i = 0;
+	char * msg;
+
+	(void) actual;
+	(void) expected;
+	(void) msg;
+	i = 0;
+	while (i < size)
+	{
+		asprintf(&msg, "Expected i:%lld to be %d but found %d!\n", i, expected[i], actual[i]);
+		assert_int(actual[i], expected[i], msg);
+		//free(msg);
+		i++;
+	}
+}
+
+void test_description(char *msg)
+{
+	fprintf(stderr, "%s\n", msg);
 }
 
 #define ASSERT_STDOUT(x, y, z) \

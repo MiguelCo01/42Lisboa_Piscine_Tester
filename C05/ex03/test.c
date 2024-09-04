@@ -6,7 +6,7 @@
 /*   By: mimelo-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:17:49 by mimelo-d          #+#    #+#             */
-/*   Updated: 2024/08/29 23:57:28 by mimelo-d         ###   ########.fr       */
+/*   Updated: 2024/09/03 22:43:39 by mimelo-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(TEST_ARGS)
 	TEST(assert_int(ft_recursive_power(0, 0), 1, "0^-0"));
 
 	// Test: base 0 power 2
-	TEST(assert_int(ft_recursive_power(0, 2), 0, "0^-0"));
+	TEST(assert_int(ft_recursive_power(0, 2), 0, "0^2"));
 
 
 	END_TEST;

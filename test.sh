@@ -59,6 +59,17 @@ do
 		continue
 	fi
 	test_number="$(./main)"
+	if [ $? -ne 0 ]
+	then
+		echo "Stuff"
+		echo -n "${red}[NOK]${rest}\n $test_number"
+	fi
+
+	if [ $test_number -eq 0 ]
+	then
+		echo "No Test found...."
+		continue
+	fi
 	errors=''
 	for (( c=0; c<test_number; c++ ))
 	do
