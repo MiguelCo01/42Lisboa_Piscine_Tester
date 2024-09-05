@@ -78,7 +78,11 @@ do
 	exit_code=$?
 	case $exit_code in
 		0) echo -n -e "${green}[OK]${reset} " ;;
-		139) echo -n -e "${red}[SEGFAULT]${reset} " ;;
+		139) 
+			echo -n -e "${red}[SEGFAULT]${reset} " 
+			errors="$errors Test #$c------------------- \n\n$result\n\n"
+			;;
+
 		1) 
 			echo -n -e "${red}[NOK]${reset} "
 			errors="$errors Test #$c------------------- \n\n$result\n\n"

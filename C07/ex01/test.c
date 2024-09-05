@@ -1,4 +1,5 @@
-/* ************************************************************************** */
+/* ************************************************il.c	char *ft_convert_base(char *nbr, char *base_from, char *base_top)
+************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
@@ -83,13 +84,11 @@ int	main(TEST_ARGS)
 		TEST_END
 
 		TEST_START
-			mock_malloc(1);
-			test_description("Testing for Malloc NULL");
+			test_description("Testing for [MIN INT - MAX INT]");
 			int *r;
 	
 			r = ft_range(INT_MIN / 4, INT_MAX / 4);		
-			assert_ptr(r, NULL, "Must be null");
-			mock_malloc(0);
+			assert_ptr_not(r, NULL, "Must be null");
 		TEST_END
 			
 

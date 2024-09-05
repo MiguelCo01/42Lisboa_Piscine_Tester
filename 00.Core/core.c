@@ -287,7 +287,6 @@ void test_description(char *msg)
 {
 	fprintf(stderr, "%s\n", msg);
 }
-
 #define ASSERT_STDOUT(x, y, z) \
 {\
 	int file_desc; \
